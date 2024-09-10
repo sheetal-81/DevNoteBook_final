@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-card {
+            position: relative;
+            overflow: hidden;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        .profile-card .bottom-corner {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 0, 0, 0.8); /* Red color with some transparency */
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+            z-index: 1;
+        }
+
+        .profile-card .card-body {
+            position: relative;
+            z-index: 2; /* Ensures content is above the corner overlay */
+        }
+
+        .profile-card .card-icon {
+            margin-right: 10px;
+            color: #007bff; /* Bootstrap primary color */
+            font-size: 20px;
+        }
+
+        .profile-card .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .profile-card .card-text {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .redirect-button {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="profile-card">
+        <div class="card-body">
+            <h5 class="card-title">Profile Details</h5>
+            <p class="card-text">
+                <i class="fas fa-user card-icon"></i>
+                <span th:text="'Name: ' + ${user.name}"></span>
+            </p>
+            <p class="card-text">
+                <i class="fas fa-user-circle card-icon"></i>
+                <span th:text="'Username: ' + ${user.username}"></span>
+            </p>
+            <p class="card-text">
+                <i class="fas fa-phone card-icon"></i>
+                <span th:text="'Phone Number: ' + ${user.phoneNumber}"></span>
+            </p>
+        </div>
+        <div class="bottom-corner"></div>
+    </div>
+
+    <!-- Redirect Button -->
+    <div class="redirect-button">
+        <a href="/" class="btn btn-success">Go to Main Page</a>
+    </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

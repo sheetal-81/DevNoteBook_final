@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Files</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .rounded-border {
+            border: 2px solid black;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+        .rounded-border img {
+            border-radius: 15px;
+            margin-left: 20px;
+            max-height: 300px;
+        }
+        .form-container {
+            flex: 1;
+        }
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="rounded-border">
+            <!-- Form Section -->
+            <div class="form-container">
+                
+                <form th:action="@{/updateProduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+                    <!-- Hidden input for the ID -->
+                    <input type="hidden" th:field="*{id}" />
+
+                    <!-- Product Name -->
+                    <div class="form-group">
+                        <label for="name">Name Of File:</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="name" required />
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="form-group">
+                        <label for="description">Description For File:</label>
+                        <input type="text" th:field="*{description}" class="form-control" id="description" required />
+                    </div>
+
+                    <!-- Product Price -->
+                    <div class="form-group">
+                        <label for="price">No of Updation:</label>
+                        <input type="number" th:field="*{price}" class="form-control" id="price" step="0.01" required />
+                    </div>
+
+                    <!-- Existing File -->
+                    <div class="form-group">
+                        <label>Current File:</label>
+                        <a th:if="${product.fileName}" th:href="@{/file/{filename}(filename=${product.fileName})}" target="_blank" th:text="${product.fileName}">File Name</a>
+                    </div>
+
+                    <!-- File Input Field -->
+                    <div class="form-group">
+                        <label for="file">Upload New File:</label>
+                        <input type="file" id="file" name="file" class="form-control" />
+                    </div>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <a href="/" class="btn btn-secondary ml-2">Cancel</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Image Section -->
+            <img src="/images/update.png" alt="Update Image" class="img-fluid">
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

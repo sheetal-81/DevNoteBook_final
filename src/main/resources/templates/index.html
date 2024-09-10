@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DevNotebook</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sevillana&display=swap" rel="stylesheet">
+    <style>
+        .custom-rounded {
+            border-top-left-radius: 15%;
+            border-bottom-right-radius: 15%;
+            border-top-right-radius: 10%;
+            border-bottom-left-radius: 10%;
+        }
+        
+        .sevillana-regular {
+            font-family: "Sevillana", cursive;
+            font-weight: 80;
+            font-style: normal;
+            color: rgb(20, 20, 20);
+            font-size: 60px;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background-color: white !important;
+        }
+        
+        .btn-spacing {
+            margin-right: 10px;
+        }
+        
+        .dark-mode {
+            background-color: #343a40 !important;
+            color: white;
+        }
+        
+        .dark-mode .navbar {
+            background-color: #212529 !important;
+        }
+        
+        .dark-mode .navbar-brand {
+            color: #ffffff !important;
+        }
+
+        .dark-mode .modal-content {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .dark-mode .modal-header,
+        .dark-mode .modal-footer {
+            border-color: #495057;
+        }
+
+        .dark-mode .btn-close {
+            filter: invert(1);
+        }
+
+        .dark-mode .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .modal-content img {
+            max-width: 100%;
+            border-radius: 15px;
+        }
+        
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .btn-group-toggle .btn {
+            margin-right: 5px;
+        }
+        
+        .btn-close {
+            margin-left: auto;
+        }
+        
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        /* Hide splash screen by default */
+        #splash-screen.hidden {
+            display: none;
+        }
+
+        /* Beautification for the "Welcome to DevNotebook" */
+        .navbar-brand {
+            font-family: 'Sevillana', cursive;
+            font-size: 3.5rem;
+            color: #f20fdf;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dark mode adjustments for text and backgrounds */
+        .dark-mode .sevillana-regular {
+            color: #ffffff;
+        }
+
+        .dark-mode a {
+            color: #0dcaf0;
+        }
+
+        .dark-mode .custom-rounded {
+            border-color: #495057;
+        }
+        .footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer .form-control {
+    background-color: #495057;
+    color: white;
+    border: 1px solid #6c757d;
+}
+
+.footer .form-control:focus {
+    background-color: #495057;
+    border-color: #0dcaf0;
+    box-shadow: none;
+}
+
+.footer a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #0dcaf0;
+}
+
+.contact-form {
+    max-width: 400px; /* Adjust as needed */
+}
+
+.contact-form form {
+    width: 100%;
+}
+
+.contact-info {
+    flex: 1;
+    text-align: right;
+}
+
+.contact-info i {
+    margin-right: 10px;
+}
+
+.contact-info span {
+    display: flex;
+    align-items: center;
+}
+
+.contact-info a {
+    margin: 0 8px;
+}
+
+
+    </style>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body>
+    <div id="splash-screen"> <!-- Remove the `hidden` class -->
+        <dotlottie-player 
+            src="https://lottie.host/96a92558-ae0e-4eb0-b8b0-3ce7e27f70a7/EjoUGHEWHz.json" 
+            background="transparent" 
+            speed="1" 
+            style="width: 400px; height: 400px;" 
+            loop 
+            autoplay>
+        </dotlottie-player>
+    </div>
+    
+
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center">
+                    <!-- Circular Image with Modal Trigger -->
+                    <img src="/images/dev.png" alt="Logo" class="rounded-circle me-3" style="width: 90px; height: 90px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#logoModal">
+                    <!-- Text -->
+                    <span class="navbar-brand mb-0"><b>Welcome to DevNotebook</b></span>
+                </div>
+
+                <!-- Button Group for Icon Buttons and Dark/Light Mode Toggle -->
+                <div class="d-flex align-items-center ms-auto">
+                    <a href="/showNewProductForm" class="btn btn-success btn-spacing">Upload File</a>
+                    <a href="/check" class="btn btn-info btn-spacing">Check</a>
+                    <a href="/register" class="btn btn-warning btn-spacing">Profile</a>
+                    <a href="/files" class="btn btn-secondary btn-spacing">Contribute</a>
+                    <!-- Toggle Switch for Dark/Light Mode -->
+                    <div class="theme-toggle">
+                        <input type="checkbox" id="toggleTheme" class="form-check-input">
+                        <label for="toggleTheme" class="form-check-label ms-2">Dark/Light Mode</label>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Modal for Full Image Display -->
+    <div class="modal fade" id="logoModal" tabindex="-1" aria-labelledby="logoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoModalLabel">Logo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <!-- Enlarged Logo with Close Button -->
+                    <img src="/images/dev.png" alt="Full Logo" style="max-width: 90%; height: auto;">
+                    <button class="btn btn-secondary mt-3" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <h2 class="sevillana-regular">
+        Empower your studies with our comprehensive platform offering detailed notes, up-to-date syllabus, effective revision guides, handy cheatsheets, and strategic roadmaps.
+        <br>Access previous year questions to practice and excel in your exams.
+        <br>Our resources are designed to simplify your learning journey and boost your academic performance. Join us to make studying smarter and more efficient!
+    </h2>
+
+    <!-- Images Section -->
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <a href="/pyq">
+                <img src="/images/pyq1.png" alt="PYQ" class="img-fluid custom-rounded">
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="/notes">
+                <img src="/images/notes.png" alt="Notes" class="img-fluid custom-rounded">
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="/cheat">
+                <img src="/images/cheat1.png" alt="Cheatsheet" class="img-fluid custom-rounded">
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <a href="/revision">
+                <img src="/images/revision1.png" alt="Tutorials" class="img-fluid custom-rounded">
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="/roadmap">
+                <img src="/images/roadmap1.png" alt="Projects" class="img-fluid custom-rounded">
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="/syllabus">
+                <img src="/images/syllabus1.png" alt="Resources" class="img-fluid custom-rounded">
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Check if the splash screen has been shown before
+        window.addEventListener('DOMContentLoaded', () => {
+            const splashScreen = document.getElementById('splash-screen');
+            const hasSeenSplashScreen = localStorage.getItem('hasSeenSplashScreen');
+
+            if (!hasSeenSplashScreen) {
+                // Show splash screen and set flag in localStorage
+                splashScreen.classList.remove('hidden');
+                setTimeout(() => {
+                    splashScreen.classList.add('hidden');
+                    localStorage.setItem('hasSeenSplashScreen', 'true');
+                }, 5000); // Hide after 5 seconds
+            } else {
+                // Hide splash screen if it's already been seen
+                splashScreen.classList.add('hidden');
+            }
+        });
+
+        // Toggle Dark/Light Mode
+        document.getElementById('toggleTheme').addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', this.checked);
+        });
+    </script>
+<!-- Footer Section -->
+<footer class="footer bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <!-- Combined Contact Form and Information -->
+            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                <!-- Contact Us Form -->
+                <div class="contact-form d-flex align-items-center">
+                    <form class="d-flex flex-column flex-sm-row align-items-center">
+                        <div class="form-group me-3 mb-2 mb-sm-0">
+                            <textarea class="form-control" id="message" rows="1" placeholder="Enter your message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning mt-2 mt-sm-0">Submit</button>
+                    </form>
+                </div>
+                <!-- Contact Information -->
+                <div class="contact-info d-flex align-items-center">
+                    
+                    <span class="d-flex align-items-center">
+                        <a href="https://github.com/sheetal-81" class="text-white me-3" target="_blank">
+                            <i class="fab fa-github fa-lg"></i> GitHub
+                        </a>
+                        <a href="https://x.com/sheetal23439518" class="text-white me-3" target="_blank">
+                            <i class="fab fa-twitter fa-lg"></i> Twitter
+                        </a>
+                        <a href="mailto:gmunna352@gmail.com" class="text-white me-3">
+                            <i class="fas fa-envelope fa-lg"></i> Email
+                        </a>
+                        <span>
+                            <i class="fas fa-map-marker-alt fa-lg"></i> Mumbai, Maharashtra
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+</html>

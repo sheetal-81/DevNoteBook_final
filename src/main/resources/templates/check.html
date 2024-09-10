@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Check Files</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .table-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="mt-4">View Your Files Here !!!</h1>
+        <div class="table-container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Description</th>
+                        <th>Actions</th> <!-- Combined Actions Header -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.name}">Name Of File</td>
+                        <td th:text="${product.description}">Description For File</td>
+                        <td> <!-- Combined Actions -->
+                            <a th:if="${product.fileName}" th:href="@{/file/{filename}(filename=${product.fileName})}" target="_blank" class="btn btn-info btn-sm">View</a>
+                            <a th:href="@{/showFormForUpdate/{id}(id=${product.id})}" class="btn btn-primary btn-sm ml-2">Edit</a>
+                            <a th:href="@{/deleteProduct/{id}(id=${product.id})}" class="btn btn-danger btn-sm ml-2">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+    <!-- Redirect Button -->
+    <div style="margin-top: 20px; display: flex; justify-content: center;">
+        <a href="/" class="btn btn-success" style="text-decoration: none;">Go to Main Page</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>File Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .upload-box {
+            background-color: rgba(128, 0, 128, 0.1);
+            border: 2px solid rgba(128, 0, 128, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(128, 0, 128, 0.2);
+        }
+        .upload-box h1 {
+            color: #800080;
+        }
+        .table thead th {
+            border-bottom: 2px solid #800080;
+        }
+        .table tbody tr {
+            border-bottom: 1px solid #800080;
+        }
+        .table tbody tr td {
+            vertical-align: middle;
+        }
+        .btn-primary {
+            background-color: #800080;
+            border-color: #800080;
+        }
+        .btn-primary:hover {
+            background-color: #660066;
+            border-color: #660066;
+        }
+        .btn-info {
+            background-color: #6a1b9a;
+            border-color: #6a1b9a;
+        }
+        .btn-info:hover {
+            background-color: #4a0072;
+            border-color: #4a0072;
+        }
+        .highlight {
+            background-color: #f7e9ff;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <div class="container">
+        <div class="upload-box">
+            <h1>File Upload</h1>
+            <form th:action="@{/files/upload}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="file" name="file" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="ownerName" class="form-control" placeholder="Owner Name" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+
+
+<!-- Search Box -->
+<div class="form-group">
+    <input type="text" id="searchBox" class="form-control" placeholder="Search by File Name">
+</div><br>
+<h2>View Uploaded Files</h2><br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Owner Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="fileTable">
+                <tr th:each="file : ${files}">
+                    <td th:text="${file.fileName}">File Name</td>
+                    <td th:text="${file.ownerName}">Owner Name</td>
+                    <td>
+                        <form th:action="@{/files/delete}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${file.id}" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        <a th:href="@{/files/view/{id}(id=${file.id})}" class="btn btn-secondary" target="_blank">View</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Redirect Button -->
+    <div style="margin-top: 20px; display: flex; justify-content: center;">
+        <a href="/" class="btn btn-success" style="text-decoration: none;">Go to Main Page</a>
+    </div>
+
+    <script>
+        // Trigger backend search when input changes
+        document.getElementById('searchBox').addEventListener('input', function () {
+            let filter = this.value;
+            // Redirect to search the backend with query
+            window.location.href = '/files?search=' + encodeURIComponent(filter);
+        });
+    </script>
+</body>
+</html>
